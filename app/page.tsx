@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useAuth } from "@/lib/auth"
+import { AuthForm } from "@/components/auth/auth-form"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -83,6 +85,7 @@ const calculateFallbackDistance = async (
 }
 
 export default function KilometreTracker() {
+  const { user, loading } = useAuth()
   const [trips, setTrips] = useState<Trip[]>([])
   const [newTrip, setnewTrip] = useState({
     start_address: "",
@@ -107,21 +110,24 @@ export default function KilometreTracker() {
   // Load trips on mount
   useEffect(() => {
     const fetchTrips = async () => {
-    const { data, error } = await supabase
-      .from("trips")
-      .select("*")
-      .order("date", { ascending: false })
+      if (!user) return
 
-    if (error) {
-      console.error("Error loading trips:", error)
-      return
+      const { data, error } = await supabase
+        .from("trips")
+        .select("*")
+        .eq("user_id", user!.id)
+        .order("date", { ascending: false })
+
+      if (error) {
+        console.error("Error loading trips:", error)
+        return
+      }
+
+      setTrips(data)
     }
 
-    setTrips(data)
-  }
-
-  fetchTrips()
-  }, [])
+    fetchTrips()
+  }, [user])
 
   // Listen for home address updates
   useEffect(() => {
@@ -171,6 +177,7 @@ export default function KilometreTracker() {
         duration: distanceData.duration,
         purpose: newTrip.purpose,
         notes: newTrip.notes,
+        user_id: user!.id,
       },
     ]).select()
 
@@ -196,15 +203,19 @@ export default function KilometreTracker() {
 }
 
   const handleDeleteTrip = async (tripId: string) => {
-  const { error } = await supabase.from("trips").delete().eq("id", tripId)
+    const { error } = await supabase
+      .from("trips")
+      .delete()
+      .eq("id", tripId)
+      .eq("user_id", user!.id)
 
-  if (error) {
-    console.error("Failed to delete trip:", error)
-    return
+    if (error) {
+      console.error("Failed to delete trip:", error)
+      return
+    }
+
+    setTrips((prev) => prev.filter((trip) => trip.id !== tripId))
   }
-
-  setTrips((prev) => prev.filter((trip) => trip.id !== tripId))
-}
 
   const generateReport = () => {
     let filteredTrips = trips
@@ -231,6 +242,23 @@ export default function KilometreTracker() {
   }
 
   const report = generateReport()
+
+  // Handle loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Handle unauthenticated state
+  if (!user) {
+    return <AuthForm />
+  }
 
   return (
     

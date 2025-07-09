@@ -3,14 +3,16 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Menu } from "lucide-react"
+import { Menu, LogOut } from "lucide-react"
 import { HomeAddressSetup } from "@/components/home-address-setup"
 import { FavoritesManager } from "@/components/favorites-manager"
 import { DataExport } from "@/components/data-export"
 import { supabase } from "@/lib/supabase"
+import { useAuth } from "@/lib/auth"
 
 export function SettingsMenu() {
   const [isOpen, setIsOpen] = useState(false)
+  const { signOut, user } = useAuth()
 
   // Prevent closing when clicking on Google Maps autocomplete suggestions
   const handleOpenChange = (open: boolean) => {
@@ -53,10 +55,26 @@ export function SettingsMenu() {
             <div className="border-b pb-2 mb-4">
               <h3 className="font-semibold text-lg">Settings</h3>
               <p className="text-sm text-muted-foreground">Manage your addresses and preferences</p>
+              {user && (
+                <p className="text-xs text-gray-500 mt-1">Signed in as: {user.email}</p>
+              )}
             </div>
             <HomeAddressSetup />
             <FavoritesManager onCloseMenu={() => setIsOpen(false)} />
             {/* <DataExport /> */}
+            <div className="border-t pt-4">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  signOut()
+                  setIsOpen(false)
+                }}
+                className="w-full flex items-center gap-2"
+              >
+                <LogOut className="h-4 w-4" />
+                Sign Out
+              </Button>
+            </div>
           </div>
         </div>
       </PopoverContent>
