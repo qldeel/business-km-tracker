@@ -272,8 +272,7 @@ export default function KilometreTracker() {
 
   {/* Centered Title */}
   <div className="text-center mb-8 pt-12 md:pt-4 md:mb-6">
-    <h1 className="text-4xl md:text-3xl font-bold tracking-tight mb-3 md:mb-2">Business Kilometre Tracker</h1>
-    <p className="text-lg md:text-base text-muted-foreground">Track your business trips with Google Maps integration</p>
+    <h1 className="text-4xl md:text-3xl font-bold tracking-tight">Business Kilometre Tracker</h1>
   </div>
 
 
