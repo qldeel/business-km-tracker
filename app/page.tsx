@@ -264,16 +264,22 @@ export default function KilometreTracker() {
     
 
 
-    <div className="container mx-auto px-4 py-6 max-w-6xl relative min-h-screen">
-  {/* Menu Icon - Top Right */}
-  <div className="absolute top-6 left-4">
-    <SettingsMenu />
-  </div>
-
-  {/* Centered Title */}
-  <div className="text-center mb-8 pt-12 md:pt-4 md:mb-6">
-    <h1 className="text-4xl md:text-3xl font-bold tracking-tight">Business Kilometre Tracker</h1>
-  </div>
+    <div className="container mx-auto px-4 py-4 max-w-6xl min-h-screen">
+  {/* Mobile App Header */}
+  <header className="flex items-center justify-between mb-6 py-3 -mx-4 px-4 bg-white/80 backdrop-blur-sm border-b border-gray-100 md:bg-transparent md:border-none md:py-2 md:mx-0 md:px-0">
+    {/* Menu Icon */}
+    <div className="flex-shrink-0">
+      <SettingsMenu />
+    </div>
+    
+    {/* Centered Title */}
+    <div className="flex-1 text-center px-3">
+      <h1 className="text-xl md:text-3xl font-bold tracking-tight text-gray-900 truncate">Business Kilometre Tracker</h1>
+    </div>
+    
+    {/* Spacer for balance (same width as menu) */}
+    <div className="flex-shrink-0 w-12 h-12"></div>
+  </header>
 
 
       <ApiKeySetup hasError={!!apiError} errorMessage={apiError || undefined} />

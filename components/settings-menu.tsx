@@ -35,14 +35,14 @@ export function SettingsMenu() {
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" className="h-12 w-12 p-3 hover:bg-gray-100 rounded-lg">
-          <Menu style={{ height: "36px", width: "36px" }} strokeWidth={3} />
+        <Button variant="ghost" className="h-12 w-12 p-2.5 hover:bg-gray-100 rounded-lg transition-colors">
+          <Menu className="h-6 w-6" strokeWidth={2.5} />
           <span className="sr-only">Open settings menu</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        align="end"
-        className="w-96 p-0 max-h-[80vh] overflow-hidden"
+        align="start"
+        className="w-96 p-0 max-h-[80vh] overflow-hidden ml-2"
         onInteractOutside={(e) => {
           const target = e.target as Element
           if (target?.closest(".pac-container") || target?.closest(".pac-item")) {
