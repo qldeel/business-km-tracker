@@ -6,6 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Home, Star, ChevronDown, Trash2 } from "lucide-react"
 import { AddressAutocomplete } from "@/components/address-autocomplete"
 import { supabase } from "@/lib/supabase"
+import { useAuth } from "@/lib/auth"
 
 interface FavoriteLocation {
   id: string
@@ -35,17 +36,35 @@ export function AddressAutocompleteWithFavorites({
   showHomeButton = false,
   showFavoritesButton = true,
 }: AddressAutocompleteWithFavoritesProps) {
+  const { user } = useAuth()
   const [homeAddress, setHomeAddress] = useState<string>("")
   const [favorites, setFavorites] = useState<FavoriteLocation[]>([])
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
   useEffect(() => {
     const loadData = async () => {
-      const savedHomeAddress = localStorage.getItem("home-address")
-      if (savedHomeAddress) {
-        setHomeAddress(savedHomeAddress)
+      if (!user) return
+
+      // Load home address from Supabase
+      try {
+        const { data: homeData, error: homeError } = await supabase
+          .from("user_addresses")
+          .select("address")
+          .eq("user_id", user.id)
+          .eq("address_type", "home")
+          .eq("is_default", true)
+          .single()
+
+        if (homeError && homeError.code !== "PGRST116") {
+          console.error("Error loading home address:", homeError)
+        } else if (homeData?.address) {
+          setHomeAddress(homeData.address)
+        }
+      } catch (error) {
+        console.error("Error loading home address:", error)
       }
 
+      // Load favorites
       const { data, error } = await supabase.from("favorites").select("*").order("created_at", { ascending: false })
       if (error) {
         console.error("Failed to fetch favorites:", error.message)
@@ -55,7 +74,7 @@ export function AddressAutocompleteWithFavorites({
     }
 
     loadData()
-  }, [])
+  }, [user])
 
   const handleUseHomeAddress = () => {
     if (homeAddress) {

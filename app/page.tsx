@@ -129,6 +129,36 @@ export default function KilometreTracker() {
     fetchTrips()
   }, [user])
 
+  // Load home address from Supabase
+  useEffect(() => {
+    const loadHomeAddress = async () => {
+      if (!user) return
+
+      try {
+        const { data, error } = await supabase
+          .from("user_addresses")
+          .select("address")
+          .eq("user_id", user.id)
+          .eq("address_type", "home")
+          .eq("is_default", true)
+          .single()
+
+        if (error && error.code !== "PGRST116") {
+          console.error("Error loading home address:", error)
+          return
+        }
+
+        if (data?.address) {
+          setHomeAddress(data.address)
+        }
+      } catch (error) {
+        console.error("Error loading home address:", error)
+      }
+    }
+
+    loadHomeAddress()
+  }, [user])
+
   // Listen for home address updates
   useEffect(() => {
     const handleHomeAddressUpdate = (event: CustomEvent) => {
@@ -306,8 +336,8 @@ export default function KilometreTracker() {
         <TabsContent value="add-trip">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Building2 className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-2 text-xl md:text-3xl">
+                <Building2 className="h-6 w-6 md:h-7 md:w-7" />
                 Add New Trip
               </CardTitle>
             </CardHeader>
