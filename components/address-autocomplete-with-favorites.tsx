@@ -103,7 +103,7 @@ export function AddressAutocompleteWithFavorites({
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="space-y-3 md:space-y-0 md:flex md:gap-2">
       <div className="flex-1">
         <AddressAutocomplete
           id={id}
@@ -115,62 +115,65 @@ export function AddressAutocompleteWithFavorites({
         />
       </div>
 
-      {showHomeButton && homeAddress && (
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleUseHomeAddress}
-          className="flex items-center gap-2 whitespace-nowrap px-3"
-          title={`Use home address: ${homeAddress}`}
-        >
-          <Home className="h-4 w-4" />
-          Home
-        </Button>
-      )}
+      <div className="flex gap-2 md:flex-shrink-0">
+        {showHomeButton && homeAddress && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleUseHomeAddress}
+            className="flex items-center gap-2 whitespace-nowrap flex-1 md:flex-initial md:px-3 justify-center md:justify-start"
+            title={`Use home address: ${homeAddress}`}
+          >
+            <Home className="h-5 w-5 md:h-4 md:w-4" />
+            <span className="md:inline">Home</span>
+          </Button>
+        )}
 
-      {showFavoritesButton && (
-        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              type="button"
-              variant="outline"
-              className="flex items-center gap-2 whitespace-nowrap px-3"
-              disabled={favorites.length === 0}
-            >
-              <Star className="h-4 w-4" />
-              Favorites
-              <ChevronDown className="h-3 w-3" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80 p-0" align="end">
-            <div className="p-3">
-              <div className="text-sm font-medium mb-2">Favorite Locations</div>
+        {showFavoritesButton && (
+          <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 whitespace-nowrap flex-1 md:flex-initial md:px-3 justify-center md:justify-start"
+                disabled={favorites.length === 0}
+              >
+                <Star className="h-5 w-5 md:h-4 md:w-4" />
+                <span className="md:inline">Favorites</span>
+                <ChevronDown className="h-4 w-4 md:h-3 md:w-3" />
+              </Button>
+            </PopoverTrigger>
+          <PopoverContent className="w-80 md:w-80 p-0" align="end">
+            <div className="p-4 md:p-3">
+              <div className="text-base md:text-sm font-medium mb-3 md:mb-2">Favorite Locations</div>
               {favorites.length === 0 ? (
                 <div className="text-sm text-muted-foreground py-2">
                   No favorites saved yet. Add some in the Favorites section above.
                 </div>
               ) : (
-                <div className="space-y-1 max-h-48 overflow-y-auto">
+                <div className="space-y-2 md:space-y-1 max-h-48 overflow-y-auto">
                   {favorites.map((favorite) => (
-                    <div key={favorite.id} className="flex items-center justify-between gap-2 p-2 rounded hover:bg-gray-100 border border-transparent hover:border-gray-200">
+                    <div key={favorite.id} className="flex items-center justify-between gap-3 md:gap-2 p-3 md:p-2 rounded hover:bg-gray-100 border border-transparent hover:border-gray-200">
                       <button
                         onClick={() => handleUseFavorite(favorite)}
-                        className="flex-1 text-left"
+                        className="flex-1 text-left touch-target"
                       >
-                        <div className="font-medium text-sm">{favorite.label}</div>
-                        <div className="text-xs text-muted-foreground truncate">{favorite.address}</div>
+                        <div className="font-medium text-base md:text-sm">{favorite.label}</div>
+                        <div className="text-sm md:text-xs text-muted-foreground truncate">{favorite.address}</div>
                       </button>
-                      <button onClick={() => handleDeleteFavorite(favorite.id)} title="Delete" className="text-red-500 hover:text-red-700">
-                        <Trash2 className="h-4 w-4" />
+                      <button onClick={() => handleDeleteFavorite(favorite.id)} title="Delete" className="text-red-500 hover:text-red-700 touch-target p-2 md:p-1">
+                        <Trash2 className="h-5 w-5 md:h-4 md:w-4" />
                       </button>
                     </div>
                   ))}
                 </div>
               )}
               {value.trim() && !favorites.some((f) => f.address === value.trim()) && (
-                <div className="border-t pt-2 mt-2">
-                  <Button onClick={handleSaveAsFavorite} variant="outline" size="sm" className="w-full text-xs">
-                    <Star className="h-3 w-3 mr-1" />
+                <div className="border-t pt-3 mt-3 md:pt-2 md:mt-2">
+                  <Button onClick={handleSaveAsFavorite} variant="outline" size="sm" className="w-full text-sm md:text-xs">
+                    <Star className="h-4 w-4 md:h-3 md:w-3 mr-2 md:mr-1" />
                     Save Current Address as Favorite
                   </Button>
                 </div>
@@ -179,6 +182,7 @@ export function AddressAutocompleteWithFavorites({
           </PopoverContent>
         </Popover>
       )}
+      </div>
     </div>
   )
 }

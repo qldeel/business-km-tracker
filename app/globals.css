@@ -10,6 +10,34 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* Mobile-specific touch optimizations */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent zoom on mobile inputs */
+  input, select, textarea {
+    font-size: 16px;
+  }
+  
+  @media (min-width: 768px) {
+    input, select, textarea {
+      font-size: inherit;
+    }
+  }
+  
+  /* Better mobile spacing */
+  .mobile-spacing {
+    padding: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-spacing {
+      padding: 1.5rem;
+    }
+  }
 }
 
 @layer base {

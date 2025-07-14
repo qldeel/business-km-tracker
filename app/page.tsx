@@ -264,34 +264,37 @@ export default function KilometreTracker() {
     
 
 
-    <div className="container mx-auto p-4 max-w-6xl relative">
+    <div className="container mx-auto px-4 py-6 max-w-6xl relative min-h-screen">
   {/* Menu Icon - Top Right */}
-  <div className="absolute top-4 left-4">
+  <div className="absolute top-6 left-4">
     <SettingsMenu />
   </div>
 
   {/* Centered Title */}
-  <div className="text-center mb-6">
-    <h1 className="text-3xl font-bold tracking-tight">Business Kilometre Tracker</h1>
-    <p className="text-muted-foreground">Track your business trips with Google Maps integration</p>
+  <div className="text-center mb-8 pt-12 md:pt-4 md:mb-6">
+    <h1 className="text-4xl md:text-3xl font-bold tracking-tight mb-3 md:mb-2">Business Kilometre Tracker</h1>
+    <p className="text-lg md:text-base text-muted-foreground">Track your business trips with Google Maps integration</p>
   </div>
 
 
       <ApiKeySetup hasError={!!apiError} errorMessage={apiError || undefined} />
 
-      <Tabs defaultValue="add-trip" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="add-trip" className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Add Trip
+      <Tabs defaultValue="add-trip" className="space-y-8 md:space-y-6">
+        <TabsList className="grid w-full grid-cols-3 h-14 md:h-10 text-base md:text-sm">
+          <TabsTrigger value="add-trip" className="flex items-center gap-2 py-3 md:py-2">
+            <Plus className="h-5 w-5 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Add Trip</span>
+            <span className="sm:hidden">Add</span>
           </TabsTrigger>
-          <TabsTrigger value="trip-history" className="flex items-center gap-2">
-            <Car className="h-4 w-4" />
-            Trip History
+          <TabsTrigger value="trip-history" className="flex items-center gap-2 py-3 md:py-2">
+            <Car className="h-5 w-5 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Trip History</span>
+            <span className="sm:hidden">History</span>
           </TabsTrigger>
-          <TabsTrigger value="reports" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Reports
+          <TabsTrigger value="reports" className="flex items-center gap-2 py-3 md:py-2">
+            <FileText className="h-5 w-5 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Reports</span>
+            <span className="sm:hidden">Reports</span>
           </TabsTrigger>
         </TabsList>
 
@@ -303,17 +306,17 @@ export default function KilometreTracker() {
                 Add New Trip
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6 md:space-y-4">
               {calculationError && (
                 <Alert>
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{calculationError}</AlertDescription>
+                  <AlertCircle className="h-5 w-5 md:h-4 md:w-4" />
+                  <AlertDescription className="text-base md:text-sm">{calculationError}</AlertDescription>
                 </Alert>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="date">Date</Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4">
+                <div className="space-y-3 md:space-y-2">
+                  <Label htmlFor="date" className="text-base md:text-sm font-medium">Date</Label>
                   <Input
                     id="date"
                     type="date"
@@ -321,8 +324,8 @@ export default function KilometreTracker() {
                     onChange={(e) => setnewTrip((prev) => ({ ...prev, date: e.target.value }))}
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="purpose">Purpose (Optional)</Label>
+                <div className="space-y-3 md:space-y-2">
+                  <Label htmlFor="purpose" className="text-base md:text-sm font-medium">Purpose (Optional)</Label>
                   <Input
                     id="purpose"
                     placeholder="e.g., Client meeting, Conference, etc."
@@ -332,9 +335,9 @@ export default function KilometreTracker() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="start" className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-green-500" />
+              <div className="space-y-3 md:space-y-2">
+                <Label htmlFor="start" className="flex items-center gap-2 text-base md:text-sm font-medium">
+                  <MapPin className="h-5 w-5 md:h-4 md:w-4 text-green-500" />
                   Starting Location
                 </Label>
                 <AddressAutocompleteWithFavorites
@@ -379,9 +382,9 @@ export default function KilometreTracker() {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="end" className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-red-500" />
+              <div className="space-y-3 md:space-y-2">
+                <Label htmlFor="end" className="flex items-center gap-2 text-base md:text-sm font-medium">
+                  <MapPin className="h-5 w-5 md:h-4 md:w-4 text-red-500" />
                   Destination
                 </Label>
                 <AddressAutocompleteWithFavorites
@@ -425,8 +428,8 @@ export default function KilometreTracker() {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="notes">Notes (Optional)</Label>
+              <div className="space-y-3 md:space-y-2">
+                <Label htmlFor="notes" className="text-base md:text-sm font-medium">Notes (Optional)</Label>
                 <Textarea
                   id="notes"
                   placeholder="Additional notes about the trip"
@@ -472,15 +475,15 @@ export default function KilometreTracker() {
         </TabsContent>
 
         <TabsContent value="reports">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-6">
             <Card className="lg:col-span-1">
               <CardHeader>
                 <CardTitle>Report Settings</CardTitle>
                 <CardDescription>Select the period for your report</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Report Period</Label>
+              <CardContent className="space-y-6 md:space-y-4">
+                <div className="space-y-3 md:space-y-2">
+                  <Label className="text-base md:text-sm font-medium">Report Period</Label>
                   <Select value={reportPeriod} onValueChange={setReportPeriod}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select period" />
@@ -494,9 +497,9 @@ export default function KilometreTracker() {
                 </div>
 
                 {reportPeriod === "custom" && (
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label>From Date</Label>
+                  <div className="space-y-6 md:space-y-4">
+                    <div className="space-y-3 md:space-y-2">
+                      <Label className="text-base md:text-sm font-medium">From Date</Label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
@@ -516,8 +519,8 @@ export default function KilometreTracker() {
                       </Popover>
                     </div>
 
-                    <div className="space-y-2">
-                      <Label>To Date</Label>
+                    <div className="space-y-3 md:space-y-2">
+                      <Label className="text-base md:text-sm font-medium">To Date</Label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
@@ -566,14 +569,14 @@ export default function KilometreTracker() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl font-bold text-blue-600">{report.totalTrips}</div>
-                    <div className="text-sm text-muted-foreground">Total Trips</div>
+                <div className="grid grid-cols-2 gap-6 mb-8 md:gap-4 md:mb-6">
+                  <div className="text-center p-6 md:p-4 border rounded-lg">
+                    <div className="text-3xl md:text-2xl font-bold text-blue-600">{report.totalTrips}</div>
+                    <div className="text-base md:text-sm text-muted-foreground">Total Trips</div>
                   </div>
-                  <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl font-bold text-green-600">{report.totalKilometers.toFixed(1)} km</div>
-                    <div className="text-sm text-muted-foreground">Total Distance</div>
+                  <div className="text-center p-6 md:p-4 border rounded-lg">
+                    <div className="text-3xl md:text-2xl font-bold text-green-600">{report.totalKilometers.toFixed(1)} km</div>
+                    <div className="text-base md:text-sm text-muted-foreground">Total Distance</div>
                   </div>
                 </div>
 
