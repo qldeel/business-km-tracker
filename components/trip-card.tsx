@@ -44,7 +44,7 @@ export function TripCard({ trip, onDelete }: TripCardProps) {
   }
 
   return (
-    <div className="border rounded-lg p-4 group hover:shadow-md transition-shadow">
+    <div className="border rounded-lg p-4 group hover:shadow-md transition-shadow bg-white">
       <div className="flex justify-between items-start mb-2">
         <div className="flex items-center gap-2">
           <Badge variant="outline">{format(new Date(trip.date), "MMM dd, yyyy")}</Badge>
@@ -57,7 +57,6 @@ export function TripCard({ trip, onDelete }: TripCardProps) {
           )}
         </div>
         <div className="flex items-center gap-2">
-          <div className="text-sm text-muted-foreground">{trip.purpose || "No purpose specified"}</div>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
@@ -104,6 +103,11 @@ export function TripCard({ trip, onDelete }: TripCardProps) {
           </AlertDialog>
         </div>
       </div>
+      
+      <div className="mb-2 text-sm text-muted-foreground">
+        <span className="font-medium">Purpose:</span> {trip.purpose || "No purpose specified"}
+      </div>
+      
       <div className="space-y-1 text-sm">
         <div className="flex items-start gap-2">
           <MapPin className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />

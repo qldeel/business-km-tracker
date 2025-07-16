@@ -334,7 +334,7 @@ export default function KilometreTracker() {
         </TabsList>
 
         <TabsContent value="add-trip">
-          <Card>
+          <Card className="bg-gray-100">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-xl md:text-3xl">
                 <Building2 className="h-6 w-6 md:h-7 md:w-7" />
@@ -485,11 +485,11 @@ export default function KilometreTracker() {
         </TabsContent>
 
         <TabsContent value="trip-history">
-          <Card>
+          <Card className="bg-gray-100">
             <CardHeader>
               <CardTitle>Trip History</CardTitle>
               <CardDescription>
-                View all your recorded business trips. Click on addresses to add them to favorites. Hover over trips to
+                View all your recorded business trips. Click on addresses to add them to favorites. Select trips to
                 delete them.
               </CardDescription>
             </CardHeader>
@@ -511,10 +511,21 @@ export default function KilometreTracker() {
 
         <TabsContent value="reports">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-6">
-            <Card className="lg:col-span-1">
+            <Card className="lg:col-span-1 bg-gray-100">
               <CardHeader>
-                <CardTitle>Report Settings</CardTitle>
-                <CardDescription>Select the period for your report</CardDescription>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle>Report Settings</CardTitle>
+                    <CardDescription>Select the period for your report</CardDescription>
+                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => exportTripsToCSV(report.trips)}
+                    disabled={report.trips.length === 0}
+                  >
+                    Export as CSV
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent className="space-y-6 md:space-y-4">
                 <div className="space-y-3 md:space-y-2">
@@ -579,10 +590,8 @@ export default function KilometreTracker() {
               </CardContent>
             </Card>
 
-            <Card className="lg:col-span-2">
+            <Card className="lg:col-span-2 bg-gray-100">
               <CardHeader>
-                <div className="flex justify-between items-start">
-                <div>
                 <CardTitle>Report Summary</CardTitle>
                 <CardDescription>
                 {reportPeriod === "this-month" && "This month's business travel summary"}
@@ -593,36 +602,18 @@ export default function KilometreTracker() {
                 {reportPeriod === "all" && "All time business travel summary"}
                 {!reportPeriod && "Select a report period to view summary"}
                   </CardDescription>
-                </div>
-                    <Button
-                    variant="outline"
-                    onClick={() => exportTripsToCSV(report.trips)}
-                    disabled={report.trips.length === 0}
-                    >
-                    Export as CSV
-                    </Button>
-                </div>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-6 mb-8 md:gap-4 md:mb-6">
-                  <div className="text-center p-6 md:p-4 border rounded-lg">
+                  <div className="text-center p-6 md:p-4 border rounded-lg bg-white">
                     <div className="text-3xl md:text-2xl font-bold text-blue-600">{report.totalTrips}</div>
                     <div className="text-base md:text-sm text-muted-foreground">Total Trips</div>
                   </div>
-                  <div className="text-center p-6 md:p-4 border rounded-lg">
+                  <div className="text-center p-6 md:p-4 border rounded-lg bg-white">
                     <div className="text-3xl md:text-2xl font-bold text-green-600">{report.totalKilometers.toFixed(1)} km</div>
                     <div className="text-base md:text-sm text-muted-foreground">Total Distance</div>
                   </div>
                 </div>
-
-                <Button
-                  className="mb-4"
-                  variant="outline"
-                  onClick={() => exportTripsToCSV(report.trips)}
-                  disabled={report.trips.length === 0}
-                  >
-                  Export as CSV
-                </Button>
 
                 {report.trips.length > 0 && (
                   <div className="space-y-2">
@@ -641,10 +632,12 @@ export default function KilometreTracker() {
                                 </Badge>
                               )}
                             </div>
-                            <div className="text-sm text-muted-foreground">
-                              {trip.purpose || "No purpose specified"}
-                            </div>
                           </div>
+                          
+                          <div className="mb-2 text-sm text-muted-foreground">
+                            <span className="font-medium">Purpose:</span> {trip.purpose || "No purpose specified"}
+                          </div>
+                          
                           <div className="space-y-1 text-sm">
                             <div className="flex items-start gap-2">
                               <MapPin className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
