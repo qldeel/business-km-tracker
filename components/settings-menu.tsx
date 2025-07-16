@@ -35,8 +35,8 @@ export function SettingsMenu() {
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" className="h-12 w-12 p-2.5 hover:bg-gray-100 rounded-lg transition-colors">
-          <Menu className="h-6 w-6" strokeWidth={2.5} />
+        <Button variant="ghost" className="h-12 w-12 p-2.5 hover:bg-gray-800 rounded-lg transition-colors">
+          <Menu className="h-6 w-6 text-white" strokeWidth={2.5} />
           <span className="sr-only">Open settings menu</span>
         </Button>
       </PopoverTrigger>

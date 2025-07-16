@@ -296,7 +296,7 @@ export default function KilometreTracker() {
 
     <div className="container mx-auto px-4 py-4 max-w-6xl min-h-screen">
   {/* Mobile App Header */}
-  <header className="flex items-center justify-between mb-6 py-3 -mx-4 px-4 bg-white/80 backdrop-blur-sm border-b border-gray-100 md:bg-transparent md:border-none md:py-2 md:mx-0 md:px-0">
+  <header className="sticky top-0 z-50 flex items-center justify-between mb-6 py-3 -mx-4 px-4 bg-black backdrop-blur-sm border-b border-gray-800 md:py-2 md:mx-0 md:px-0">
     {/* Menu Icon */}
     <div className="flex-shrink-0">
       <SettingsMenu />
@@ -304,7 +304,7 @@ export default function KilometreTracker() {
     
     {/* Centered Title */}
     <div className="flex-1 text-center px-3">
-      <h1 className="text-xl md:text-3xl font-bold tracking-tight text-gray-900 truncate">Business Kilometre Tracker</h1>
+      <h1 className="text-xl md:text-3xl font-bold tracking-tight text-white truncate">Business Kilometre Tracker</h1>
     </div>
     
     {/* Spacer for balance (same width as menu) */}
