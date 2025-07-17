@@ -24,6 +24,7 @@ interface AddressAutocompleteWithFavoritesProps {
   onPlaceSelect?: (place: any) => void
   showHomeButton?: boolean
   showFavoritesButton?: boolean
+  className?: string
 }
 
 export function AddressAutocompleteWithFavorites({
@@ -35,6 +36,7 @@ export function AddressAutocompleteWithFavorites({
   onPlaceSelect,
   showHomeButton = false,
   showFavoritesButton = true,
+  className,
 }: AddressAutocompleteWithFavoritesProps) {
   const { user } = useAuth()
   const [homeAddress, setHomeAddress] = useState<string>("")
@@ -131,6 +133,7 @@ export function AddressAutocompleteWithFavorites({
           placeholder={placeholder}
           onError={onError}
           onPlaceSelect={onPlaceSelect}
+          className={className}
         />
       </div>
 

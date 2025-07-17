@@ -38,6 +38,11 @@ body {
       padding: 1.5rem;
     }
   }
+  
+  /* Lighter placeholder text */
+  .placeholder-lighter::placeholder {
+    color: rgb(156 163 175); /* text-gray-400 */
+  }
 }
 
 @layer base {

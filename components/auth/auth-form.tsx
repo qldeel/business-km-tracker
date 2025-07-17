@@ -77,7 +77,7 @@ export function AuthForm() {
 
   if (showResetPassword) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
@@ -144,33 +144,29 @@ export function AuthForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Business Kilometre Tracker
+            Welcome to Business Kilometre Tracker
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Track your business trips with ease
+            Please sign in or create a new account
           </p>
         </div>
 
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="text-center">Welcome</CardTitle>
-            <CardDescription className="text-center">
-              Sign in to your account or create a new one
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
                 <TabsTrigger value="signin">Sign In</TabsTrigger>
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
               </TabsList>
               
-              <TabsContent value="signin" className="space-y-4">
-                <form onSubmit={handleSignIn} className="space-y-4">
+              <TabsContent value="signin" className="space-y-6">
+                <form onSubmit={handleSignIn} className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="email" className="flex items-center gap-2">
                       <Mail className="h-4 w-4" />
@@ -214,8 +210,8 @@ export function AuthForm() {
                 </div>
               </TabsContent>
               
-              <TabsContent value="signup" className="space-y-4">
-                <form onSubmit={handleSignUp} className="space-y-4">
+              <TabsContent value="signup" className="space-y-6">
+                <form onSubmit={handleSignUp} className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="signup-email" className="flex items-center gap-2">
                       <Mail className="h-4 w-4" />

@@ -336,8 +336,7 @@ export default function KilometreTracker() {
         <TabsContent value="add-trip">
           <Card className="bg-gray-100">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl md:text-3xl">
-                <Building2 className="h-6 w-6 md:h-7 md:w-7" />
+              <CardTitle className="flex items-center justify-center text-xl md:text-3xl">
                 Add New Trip
               </CardTitle>
             </CardHeader>
@@ -363,9 +362,10 @@ export default function KilometreTracker() {
                   <Label htmlFor="purpose" className="text-base md:text-sm font-medium">Purpose (Optional)</Label>
                   <Input
                     id="purpose"
-                    placeholder="e.g., Client meeting, Conference, etc."
+                    placeholder="e.g. Client meeting"
                     value={newTrip.purpose}
                     onChange={(e) => setnewTrip((prev) => ({ ...prev, purpose: e.target.value }))}
+                    className="placeholder-lighter"
                   />
                 </div>
               </div>
@@ -380,8 +380,9 @@ export default function KilometreTracker() {
                   id="start"
                   value={newTrip.start_address}
                   onChange={(value) => setnewTrip((prev) => ({ ...prev, start_address: value }))}
-                  placeholder="Search for business name, address, or landmark"
+                  placeholder="Search by business name or address"
                   onError={setApiError}
+                  className="placeholder-lighter"
                   onPlaceSelect={(place) => {
                     setSelectedStartPlace(place)
                     // Handle the full formatted address with business name if applicable
@@ -426,8 +427,9 @@ export default function KilometreTracker() {
                   id="end"
                   value={newTrip.end_address}
                   onChange={(value) => setnewTrip((prev) => ({ ...prev, end_address: value }))}
-                  placeholder="Search for business name, address, or landmark"
+                  placeholder="Search by business name or address"
                   onError={setApiError}
+                  className="placeholder-lighter"
                   onPlaceSelect={(place) => {
                     setSelectedEndPlace(place)
                     // Handle the full formatted address with business name if applicable
@@ -467,7 +469,7 @@ export default function KilometreTracker() {
                 <Label htmlFor="notes" className="text-base md:text-sm font-medium">Notes (Optional)</Label>
                 <Textarea
                   id="notes"
-                  placeholder="Additional notes about the trip"
+                  placeholder=""
                   value={newTrip.notes}
                   onChange={(e) => setnewTrip((prev) => ({ ...prev, notes: e.target.value }))}
                 />
@@ -487,7 +489,7 @@ export default function KilometreTracker() {
         <TabsContent value="trip-history">
           <Card className="bg-gray-100">
             <CardHeader>
-              <CardTitle>Trip History</CardTitle>
+              <CardTitle className="text-center">Trip History</CardTitle>
               <CardDescription>
                 View all your recorded business trips. Click on addresses to add them to favorites. Select trips to
                 delete them.
@@ -513,19 +515,8 @@ export default function KilometreTracker() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-6">
             <Card className="lg:col-span-1 bg-gray-100">
               <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle>Report Settings</CardTitle>
-                    <CardDescription>Select the period for your report</CardDescription>
-                  </div>
-                  <Button
-                    variant="outline"
-                    onClick={() => exportTripsToCSV(report.trips)}
-                    disabled={report.trips.length === 0}
-                  >
-                    Export as CSV
-                  </Button>
-                </div>
+                <CardTitle className="text-center">Report Settings</CardTitle>
+                <CardDescription className="text-center">Select the period for your report</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6 md:space-y-4">
                 <div className="space-y-3 md:space-y-2">
@@ -592,16 +583,26 @@ export default function KilometreTracker() {
 
             <Card className="lg:col-span-2 bg-gray-100">
               <CardHeader>
-                <CardTitle>Report Summary</CardTitle>
-                <CardDescription>
-                {reportPeriod === "this-month" && "This month's business travel summary"}
-                {reportPeriod === "custom" &&
-                  reportDateFrom &&
-                  reportDateTo &&
-                  `${format(reportDateFrom, "MMM dd, yyyy")} - ${format(reportDateTo, "MMM dd, yyyy")}`}
-                {reportPeriod === "all" && "All time business travel summary"}
-                {!reportPeriod && "Select a report period to view summary"}
-                  </CardDescription>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <CardTitle>Report Summary</CardTitle>
+                    <CardDescription>
+                    {reportPeriod === "this-month" && "This month's business travel summary"}
+                    {reportPeriod === "custom" &&
+                      reportDateFrom &&
+                      reportDateTo &&
+                      `${format(reportDateFrom, "MMM dd, yyyy")} - ${format(reportDateTo, "MMM dd, yyyy")}`}
+                    {reportPeriod === "all" && "All time business travel summary"}
+                      </CardDescription>
+                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => exportTripsToCSV(report.trips)}
+                    disabled={report.trips.length === 0}
+                  >
+                    Export as CSV
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-6 mb-8 md:gap-4 md:mb-6">

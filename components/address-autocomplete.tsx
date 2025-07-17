@@ -13,6 +13,7 @@ interface AddressAutocompleteProps {
   id?: string
   onError?: (error: string) => void
   onPlaceSelect?: (place: any) => void
+  className?: string
 }
 
 export function AddressAutocomplete({
@@ -22,6 +23,7 @@ export function AddressAutocomplete({
   id,
   onError,
   onPlaceSelect,
+  className,
 }: AddressAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const autocompleteRef = useRef<any>(null)
@@ -125,7 +127,7 @@ export function AddressAutocomplete({
         onChange={handleInputChange}
         placeholder={error ? "Enter address manually" : isLoading ? "Loading suggestions..." : placeholder}
         disabled={isLoading}
-        className={error ? "border-red-300" : ""}
+        className={error ? "border-red-300" : className}
       />
       {isLoading && (
         <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
