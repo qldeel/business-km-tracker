@@ -30,6 +30,7 @@ export function AddressAutocomplete({
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [inputValue, setInputValue] = useState(value)
+  const [isPlaceSelectionActive, setIsPlaceSelectionActive] = useState(false)
 
   // Sync input value with external value
   useEffect(() => {
@@ -54,6 +55,7 @@ export function AddressAutocomplete({
             const place = autocompleteRef.current.getPlace()
 
             if (place) {
+              setIsPlaceSelectionActive(true)
               let selectedAddress = ""
 
               // If it's a business/establishment, use the name + address
@@ -84,6 +86,9 @@ export function AddressAutocomplete({
                   onPlaceSelect(place)
                 }
               }
+              
+              // Reset the flag after a short delay to allow the selection to complete
+              setTimeout(() => setIsPlaceSelectionActive(false), 100)
             }
           })
 
@@ -113,7 +118,7 @@ export function AddressAutocomplete({
     setInputValue(newValue)
     // Only update parent component when user is typing manually
     // (not when selection happens via the dropdown)
-    if (!autocompleteRef.current?.getPlace()) {
+    if (!isPlaceSelectionActive) {
       onChange(newValue)
     }
   }
