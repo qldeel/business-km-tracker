@@ -74,7 +74,7 @@ export const loadGoogleMapsAPI = (): Promise<void> => {
     // Load Google Maps API with only required libraries
     const script = document.createElement("script")
     script.id = "google-maps-js" // <-- NEW id
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&callback=initMap`
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&loading=async&callback=initMap`
     script.async = true
     script.defer = true
 
