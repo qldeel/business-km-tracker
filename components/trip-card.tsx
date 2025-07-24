@@ -45,63 +45,15 @@ export function TripCard({ trip, onDelete }: TripCardProps) {
 
   return (
     <div className="border rounded-lg p-4 group hover:shadow-md transition-shadow bg-white">
-      <div className="flex justify-between items-start mb-2">
-        <div className="flex items-center gap-2">
-          <Badge variant="outline">{format(new Date(trip.date), "MMM dd, yyyy")}</Badge>
-          <Badge>{trip.km} km</Badge>
-          {trip.duration && (
-            <Badge variant="secondary" className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              {trip.duration}
-            </Badge>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 hover:bg-red-50"
-                disabled={isDeleting}
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete Trip</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete this trip? This action cannot be undone.
-                </AlertDialogDescription>
-                <div className="mt-3 p-3 bg-gray-50 rounded-lg text-sm">
-                  <div className="font-medium">
-                    {format(new Date(trip.date), "MMM dd, yyyy")} - {trip.km} km
-                  </div>
-                  <div className="text-gray-600 mt-1">
-                    From:{" "}
-                    {trip.start_address?.length > 50
-                      ? trip.start_address.substring(0, 50) + "..."
-                      : trip.start_address || "—"}
-                  </div>
-                  <div className="text-gray-600">
-                    To:{" "}
-                    {trip.end_address?.length > 50
-                      ? trip.end_address.substring(0, 50) + "..."
-                      : trip.end_address || "—"}
-                  </div>
-                  {trip.purpose && <div className="text-gray-600">Purpose: {trip.purpose}</div>}
-                </div>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700 focus:ring-red-600">
-                  Delete Trip
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
+      <div className="flex items-center gap-2 justify-center md:justify-start flex-wrap md:flex-nowrap mb-2">
+        <Badge variant="outline" className="whitespace-nowrap">{format(new Date(trip.date), "MMM dd, yyyy")}</Badge>
+        <Badge className="whitespace-nowrap">{trip.km} km</Badge>
+        {trip.duration && (
+          <Badge variant="secondary" className="flex items-center gap-1 whitespace-nowrap">
+            <Clock className="h-3 w-3" />
+            {trip.duration}
+          </Badge>
+        )}
       </div>
       
       <div className="mb-2 text-sm text-muted-foreground">
@@ -128,6 +80,53 @@ export function TripCard({ trip, onDelete }: TripCardProps) {
             <span className="font-medium">Notes:</span> {trip.notes}
           </div>
         )}
+      </div>
+      
+      <div className="flex justify-center mt-3 pt-3 border-t border-gray-100">
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 hover:bg-red-50"
+              disabled={isDeleting}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete Trip</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to delete this trip? This action cannot be undone.
+              </AlertDialogDescription>
+              <div className="mt-3 p-3 bg-gray-50 rounded-lg text-sm">
+                <div className="font-medium">
+                  {format(new Date(trip.date), "MMM dd, yyyy")} - {trip.km} km
+                </div>
+                <div className="text-gray-600 mt-1">
+                  From:{" "}
+                  {trip.start_address?.length > 50
+                    ? trip.start_address.substring(0, 50) + "..."
+                    : trip.start_address || "—"}
+                </div>
+                <div className="text-gray-600">
+                  To:{" "}
+                  {trip.end_address?.length > 50
+                    ? trip.end_address.substring(0, 50) + "..."
+                    : trip.end_address || "—"}
+                </div>
+                {trip.purpose && <div className="text-gray-600">Purpose: {trip.purpose}</div>}
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700 focus:ring-red-600">
+                Delete Trip
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   )

@@ -355,8 +355,7 @@ export default function KilometreTracker() {
         <TabsContent value="add-trip">
           <Card className="bg-gray-100">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl md:text-3xl">
-                <Building2 className="h-6 w-6 md:h-7 md:w-7" />
+              <CardTitle className="text-center text-xl md:text-3xl" style={{color: '#1a53ff'}}>
                 Add New Trip
               </CardTitle>
             </CardHeader>
@@ -382,7 +381,7 @@ export default function KilometreTracker() {
                   <Label htmlFor="purpose" className="text-base md:text-sm font-medium">Purpose (Optional)</Label>
                   <Input
                     id="purpose"
-                    placeholder="e.g., Client meeting, Conference, etc."
+                    placeholder="eg: Meeting, conference etc"
                     value={newTrip.purpose}
                     onChange={(e) => setnewTrip((prev) => ({ ...prev, purpose: e.target.value }))}
                   />
@@ -522,7 +521,7 @@ export default function KilometreTracker() {
         <TabsContent value="trip-history">
           <Card className="bg-gray-100">
             <CardHeader>
-              <CardTitle>Trip History</CardTitle>
+              <CardTitle className="text-center" style={{color: '#1a53ff'}}>Trip History</CardTitle>
               <CardDescription>
                 View all your recorded business trips. Click on addresses to add them to favorites. Select trips to
                 delete them.
@@ -548,19 +547,7 @@ export default function KilometreTracker() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-6">
             <Card className="lg:col-span-1 bg-gray-100">
               <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle>Report Settings</CardTitle>
-                    <CardDescription>Select the period for your report</CardDescription>
-                  </div>
-                  <Button
-                    variant="outline"
-                    onClick={() => exportTripsToCSV(report.trips)}
-                    disabled={report.trips.length === 0}
-                  >
-                    Export as CSV
-                  </Button>
-                </div>
+                <CardTitle className="text-center" style={{color: '#1a53ff'}}>Report Settings</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6 md:space-y-4">
                 <div className="space-y-3 md:space-y-2">
@@ -622,13 +609,24 @@ export default function KilometreTracker() {
                     </div>
                   </div>
                 )}
+                
+                <div className="pt-4 border-t border-gray-200 flex justify-center">
+                  <Button
+                    variant="outline"
+                    onClick={() => exportTripsToCSV(report.trips)}
+                    disabled={report.trips.length === 0}
+                    className="px-6"
+                  >
+                    Export as CSV
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
             <Card className="lg:col-span-2 bg-gray-100">
               <CardHeader>
-                <CardTitle>Report Summary</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-center" style={{color: '#1a53ff'}}>Report Summary</CardTitle>
+                <CardDescription className="text-center">
                 {reportPeriod === "this-month" && "This month's business travel summary"}
                 {reportPeriod === "custom" &&
                   reportDateFrom &&
@@ -641,11 +639,11 @@ export default function KilometreTracker() {
               <CardContent>
                 <div className="grid grid-cols-2 gap-6 mb-8 md:gap-4 md:mb-6">
                   <div className="text-center p-6 md:p-4 border rounded-lg bg-white">
-                    <div className="text-3xl md:text-2xl font-bold text-blue-600">{report.totalTrips}</div>
+                    <div className="text-3xl md:text-2xl font-bold text-black">{report.totalTrips}</div>
                     <div className="text-base md:text-sm text-muted-foreground">Total Trips</div>
                   </div>
                   <div className="text-center p-6 md:p-4 border rounded-lg bg-white">
-                    <div className="text-3xl md:text-2xl font-bold text-green-600">{report.totalKilometers.toFixed(1)} km</div>
+                    <div className="text-3xl md:text-2xl font-bold text-black">{report.totalKilometers.toFixed(1)} km</div>
                     <div className="text-base md:text-sm text-muted-foreground">Total Distance</div>
                   </div>
                 </div>
