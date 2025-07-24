@@ -174,7 +174,11 @@ export default function KilometreTracker() {
   }, [])
 
   const handleAddTrip = async () => {
+  console.log("🚀 [HandleAddTrip] Starting trip save process")
+  console.log("📊 [HandleAddTrip] Current newTrip state:", JSON.stringify(newTrip, null, 2))
+  
   if (!newTrip.start_address || !newTrip.end_address) {
+    console.log("❌ [HandleAddTrip] Missing addresses - start:", newTrip.start_address, "end:", newTrip.end_address)
     return
   }
 
@@ -186,32 +190,46 @@ export default function KilometreTracker() {
 
     if (hasApiKey && !apiError) {
       try {
+        console.log("🗺️ [HandleAddTrip] Using Google Maps API for distance calculation")
         distanceData = await calculateRealDistance(newTrip.start_address, newTrip.end_address)
+        console.log("🗺️ [HandleAddTrip] Distance calculated:", distanceData)
       } catch (apiError) {
         console.warn("Google Maps API failed, using fallback:", apiError)
         distanceData = await calculateFallbackDistance(newTrip.start_address, newTrip.end_address)
         setCalculationError("Used estimated distance - Google Maps API error")
       }
     } else {
+      console.log("📏 [HandleAddTrip] Using fallback distance calculation")
       distanceData = await calculateFallbackDistance(newTrip.start_address, newTrip.end_address)
       setCalculationError("Using estimated distance - no Google Maps API")
     }
 
     // ✅ Send to Supabase
-    const { data, error } = await supabase.from("trips").insert([
-      {
-        date: newTrip.date,
-        start_address: newTrip.start_address,
-        end_address: newTrip.end_address,
-        km: distanceData.distance,
-        duration: distanceData.duration,
-        purpose: newTrip.purpose,
-        notes: newTrip.notes,
-        user_id: user!.id,
-      },
-    ]).select()
+    const tripToSave = {
+      date: newTrip.date,
+      start_address: newTrip.start_address,
+      end_address: newTrip.end_address,
+      km: distanceData.distance,
+      duration: distanceData.duration,
+      purpose: newTrip.purpose,
+      notes: newTrip.notes,
+      user_id: user!.id,
+    }
+    
+    console.log("💾 [HandleAddTrip] Saving trip to database:", JSON.stringify(tripToSave, null, 2))
+    console.log("🎯 [HandleAddTrip] Start address being saved:", tripToSave.start_address)
+    console.log("🎯 [HandleAddTrip] End address being saved:", tripToSave.end_address)
+    
+    const { data, error } = await supabase.from("trips").insert([tripToSave]).select()
 
-    if (error) throw error
+    if (error) {
+      console.log("❌ [HandleAddTrip] Database error:", error)
+      throw error
+    }
+
+    console.log("✅ [HandleAddTrip] Trip saved successfully:", JSON.stringify(data[0], null, 2))
+    console.log("✅ [HandleAddTrip] Saved start_address:", data[0].start_address)
+    console.log("✅ [HandleAddTrip] Saved end_address:", data[0].end_address)
 
     // ✅ Add it to UI
     setTrips((prev) => [data[0], ...prev])
@@ -224,6 +242,7 @@ export default function KilometreTracker() {
     })
     setSelectedStartPlace(null)
     setSelectedEndPlace(null)
+    console.log("🔄 [HandleAddTrip] Trip form reset")
   } catch (error: any) {
   console.error("Error calculating distance or saving trip:", error?.message || error)
   setCalculationError(error?.message || "Failed to calculate or save trip. Please try again.")
@@ -379,10 +398,19 @@ export default function KilometreTracker() {
                   key={`start-${refreshKey}`}
                   id="start"
                   value={newTrip.start_address}
-                  onChange={(value) => setnewTrip((prev) => ({ ...prev, start_address: value }))}
+                  onChange={(value) => {
+                    console.log("🎯 [StartAddress] onChange received value:", value)
+                    setnewTrip((prev) => {
+                      const newState = { ...prev, start_address: value }
+                      console.log("🎯 [StartAddress] Setting start_address in state to:", value)
+                      console.log("🎯 [StartAddress] Full newTrip state:", newState)
+                      return newState
+                    })
+                  }}
                   placeholder="Search for business name, address, or landmark"
                   onError={setApiError}
                   onPlaceSelect={(place) => {
+                    console.log("🔔 [StartAddress] onPlaceSelect called with place:", place)
                     setSelectedStartPlace(place)
                     // Handle the full formatted address with business name if applicable
                     if (place) {
@@ -402,13 +430,20 @@ export default function KilometreTracker() {
                           place.types.includes("university"))
                       ) {
                         selectedAddress = `${place.name}, ${place.formatted_address}`
+                        console.log("🏢 [StartAddress] Business detected in onPlaceSelect - selectedAddress:", selectedAddress)
                       } else {
                         // For regular addresses, just use the formatted address
                         selectedAddress = place.formatted_address || ""
+                        console.log("🏠 [StartAddress] Regular address in onPlaceSelect - selectedAddress:", selectedAddress)
                       }
 
                       if (selectedAddress) {
-                        setnewTrip((prev) => ({ ...prev, start_address: selectedAddress }))
+                        console.log("📝 [StartAddress] onPlaceSelect setting start_address to:", selectedAddress)
+                        setnewTrip((prev) => {
+                          const newState = { ...prev, start_address: selectedAddress }
+                          console.log("📝 [StartAddress] onPlaceSelect new state:", newState)
+                          return newState
+                        })
                       }
                     }
                   }}
